@@ -1,30 +1,6 @@
-# Create or overwrite .gitignore
-@"
-# Virtual environment
-venv/
-ENV/
-env/
-.venv/
-
-# VS Code
+﻿venv/
 .vscode/
-
-# Datasets
 sentiment140.csv
 cleaned_sentiment140.csv
 sentiment_results.csv
 sentiment140.7z
-
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Streamlit cache
-.streamlit/
-
-# OS files
-.DS_Store
-Thumbs.db
-"@ | Out-File -Encoding UTF8 .gitignore
