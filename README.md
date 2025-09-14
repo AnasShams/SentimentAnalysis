@@ -31,47 +31,49 @@ This project demonstrates how to analyze the sentiment of text data (positive, n
 ```bash
 git clone https://github.com/AnasShams/SentimentAnalysis.git
 cd SentimentAnalysis
+```
 Create and activate a virtual environment:
 
-bash
-Copy code
+```bash
 python -m venv venv
 # Windows
 venv\Scripts\activate
 # macOS/Linux
 source venv/bin/activate
+```
+
 Install dependencies:
 
-bash
-Copy code
+```bash
 pip install -r requirements.txt
+```
 Ensure you have nltk and streamlit installed.
 
 Download NLTK VADER lexicon (if not already installed):
 
-python
-Copy code
+```python
 import nltk
 nltk.download('vader_lexicon')
+```
 Usage
 Run the Streamlit App:
 
-bash
-Copy code
+```bash
 streamlit run app.py
-Open the local URL provided in the console to access the UI.
+```
+- Open the local URL provided in the console to access the UI.
 
-Input text and see sentiment results instantly.
+- Input text and see sentiment results instantly.
 
 Run Scripts Directly:
 
-bash
-Copy code
+```bash
 python sentiment_analysis.py
 python data_processing.py
+```
 Project Structure
-bash
-Copy code
+```bash
+
 SentimentAnalysis/
 ├─ app.py                  # Streamlit UI
 ├─ data_processing.py      # Text preprocessing script
@@ -79,34 +81,36 @@ SentimentAnalysis/
 ├─ README.md               # Project documentation
 ├─ requirements.txt        # Python dependencies
 ├─ .gitignore              # Ignored files/folders
+```
 Ignored Files/Folders: venv/, .vscode/, dataset files (.csv, .7z)
 
 Optional: Using Your Own Datasets
+
 To run the project fully, place your own dataset files locally and make sure they are not tracked by Git. Update the scripts to point to your dataset paths.
 
+
 Contributing
-Fork the repository.
 
-Create a new branch.
+1. Fork the repository.
 
-Make your changes and commit.
+2. Create a new branch.
 
-Open a Pull Request.
+3. Make your changes and commit.
+
+4. Open a Pull Request.
 
 License
 This project is licensed under the MIT License.
 
-pgsql
-Copy code
+```pgsql
 
 This is **one block**, all code blocks remain intact, so you can copy it directly to `README.md` and the styling will remain consistent in GitHub.  
 
 If you want, I can also **write a matching `.gitignore`** for your repo so nothing unwanted gets pushed. Do you want me to do that?
+```
 
 
 
 
 
 
-
-Ask ChatGPT
