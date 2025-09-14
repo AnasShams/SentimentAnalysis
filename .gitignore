@@ -1,23 +1,30 @@
-# Ignore virtual environments
+# Create or overwrite .gitignore
+@"
+# Virtual environment
 venv/
 ENV/
 env/
 .venv/
 
-# Ignore VS Code settings
+# VS Code
 .vscode/
 
-# Ignore Python cache files
+# Datasets
+sentiment140.csv
+cleaned_sentiment140.csv
+sentiment_results.csv
+sentiment140.7z
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Ignore distribution / packaging
-*.egg-info/
-dist/
-build/
+# Streamlit cache
+.streamlit/
 
-# Ignore system files
+# OS files
 .DS_Store
 Thumbs.db
+"@ | Out-File -Encoding UTF8 .gitignore
