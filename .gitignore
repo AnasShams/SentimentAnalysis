@@ -1,0 +1,6 @@
+﻿venv/
+.vscode/
+sentiment140.csv
+cleaned_sentiment140.csv
+sentiment_results.csv
+sentiment140.7z
