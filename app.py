@@ -1,54 +1,49 @@
-import streamlit as st
-import pandas as pd
-import time
-import nltk
-from nltk.sentiment import SentimentIntensityAnalyzer
+from flask import Flask, render_template, request, jsonify
+from textblob import TextBlob
+import logging
 
-nltk.download("vader_lexicon")
-sia = SentimentIntensityAnalyzer()
+app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 
-st.title("Social Media Sentiment Analyzer 🚀")
-st.write("Analyze the sentiment of tweets, comments, or uploaded text files.")
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-user_input = st.text_area("Type a tweet or comment here...")
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-if st.button("Analyze Sentiment"):
-    if user_input:
-        sentiment_score = sia.polarity_scores(user_input)
-        sentiment = (
-            "Positive 😀" if sentiment_score["compound"] >= 0.05 else
-            "Negative 😡" if sentiment_score["compound"] <= -0.05 else
-            "Neutral 😐"
-        )
-        st.write(f"**Sentiment:** {sentiment}")
-        st.write(f"Sentiment Scores: {sentiment_score}")
-    else:
-        st.warning("Please enter text to analyze.")
+@app.route('/analyze-text', methods=['POST'])
+def analyze_text():
+    try:
+        data = request.get_json()
+        if not data or 'text' not in data:
+            return jsonify({'error': 'No text provided'}), 400
+        
+        text = data['text'].strip()
+        if not text:
+            return jsonify({'error': 'Please enter text to analyze'}), 400
+        
+        # Use TextBlob instead of NLTK
+        analysis = TextBlob(text)
+        polarity = analysis.sentiment.polarity
 
-st.subheader("Upload a CSV file for bulk analysis")
-uploaded_file = st.file_uploader("Upload CSV (text column required)", type=["csv"])
+        if polarity >= 0.05:
+            sentiment = "Positive 😀"
+        elif polarity <= -0.05:
+            sentiment = "Negative 😡"
+        else:
+            sentiment = "Neutral 😐"
 
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
-    
-    if "text" in df.columns:
-        df = df.sample(n=100, random_state=42)  
+        return jsonify({
+            'success': True,
+            'sentiment': sentiment,
+            'polarity': polarity,
+            'text_preview': text[:100] + '...' if len(text) > 100 else text
+        })
 
-        progress_bar = st.progress(0)
-        total = len(df)
+    except Exception as e:
+        logger.error(f"Error analyzing text: {str(e)}")
+        return jsonify({'error': f'Analysis error: {str(e)}'}), 500
 
-        sentiments = []
-        for i, text in enumerate(df["text"]):
-            score = sia.polarity_scores(str(text))["compound"]
-            sentiment = "Positive 😀" if score >= 0.05 else "Negative 😡" if score <= -0.05 else "Neutral 😐"
-            sentiments.append(sentiment)
-
-            progress_bar.progress((i + 1) / total)
-            time.sleep(0.001)
-
-        df["Sentiment"] = sentiments
-        st.write(df)
-    else:
-        st.error("CSV file must have a column named 'text'.")
-
-st.write("Developed by Anas, Abhinav, Arnav, Saad 😊")
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
